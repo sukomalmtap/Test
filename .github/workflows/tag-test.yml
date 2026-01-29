@@ -10,8 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print CI info
+      - name: Show CI context
         run: |
           echo "CI triggered successfully"
-          echo "Git ref: $GITHUB_REF"
-          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Full ref: $GITHUB_REF"
+
+      - name: Extract tag name
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "Tag name is: $TAG_NAME"
