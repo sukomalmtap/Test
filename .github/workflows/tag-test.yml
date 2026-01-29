@@ -1,0 +1,17 @@
+name: Tag Trigger Test
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  test-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print CI info
+        run: |
+          echo "CI triggered successfully"
+          echo "Git ref: $GITHUB_REF"
+          echo "Repository: $GITHUB_REPOSITORY"
