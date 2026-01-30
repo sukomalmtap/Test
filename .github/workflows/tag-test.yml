@@ -19,3 +19,14 @@ jobs:
         run: |
           TAG_NAME=${GITHUB_REF#refs/tags/}
           echo "Tag name is: $TAG_NAME"
+
+      - name: Test SSH connection to server
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "hostname && whoami"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
