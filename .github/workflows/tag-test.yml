@@ -1,4 +1,4 @@
-name: Tag Trigger Test
+name: Tag Trigger Test (Self-Hosted)
 
 on:
   push:
@@ -7,26 +7,17 @@ on:
 
 jobs:
   test-tag:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-      - name: Show CI context
+      - name: Show runner info
         run: |
-          echo "CI triggered successfully"
-          echo "Full ref: $GITHUB_REF"
+          echo "Running on self-hosted runner"
+          hostname
+          whoami
+          pwd
 
-      - name: Extract tag name
+      - name: Show tag
         run: |
           TAG_NAME=${GITHUB_REF#refs/tags/}
           echo "Tag name is: $TAG_NAME"
-
-      - name: Test SSH connection to server
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "hostname && whoami"
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
